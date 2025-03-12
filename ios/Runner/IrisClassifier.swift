@@ -15,16 +15,20 @@ import Vision
     }
     
     private func setupModel() {
-        do {
-            if let modelURL = Bundle.main.url(forResource: "IrisClassifier", withExtension: "mlmodel") {
+        let modelURL = Bundle.main.url(forResource: "IrisClassifier", withExtension: "mlmodelc") ??
+                      Bundle(for: type(of: self)).url(forResource: "IrisClassifier", withExtension: "mlmodelc")
+        
+        if let modelURL = modelURL {
+            print("Found model URL: \(modelURL)")
+            do {
                 model = try MLModel(contentsOf: modelURL)
                 visionModel = try VNCoreMLModel(for: model!)
                 print("CoreML model loaded successfully")
-            } else {
-                print("Model file not found")
+            } catch {
+                print("Failed to load CoreML model: \(error)")
             }
-        } catch {
-            print("Failed to load CoreML model: \(error)")
+        } else {
+            print("Model file not found")
         }
     }
     
@@ -34,23 +38,27 @@ import Vision
             return
         }
         
-        let input: [String: Any] = [
-            "sepal_length": sepalLength,
-            "sepal_width": sepalWidth,
-            "petal_length": petalLength,
-            "petal_width": petalWidth
-        ]
-        
         do {
-            let output = try model.prediction(from: MLDictionaryFeatureProvider(dictionary: input))
+            let inputArray = try MLMultiArray(shape: [4], dataType: .double)
+            inputArray[0] = NSNumber(value: sepalLength)
+            inputArray[1] = NSNumber(value: sepalWidth)
+            inputArray[2] = NSNumber(value: petalLength)
+            inputArray[3] = NSNumber(value: petalWidth)
             
-            guard let species = output.featureValue(for: "species")?.stringValue else {
+            let provider = try MLDictionaryFeatureProvider(dictionary: ["input": inputArray])
+            
+            let output = try model.prediction(from: provider)
+            
+            guard let speciesIndex = output.featureValue(for: "species")?.int64Value else {
                 completion(nil, NSError(domain: "CoreMLHandler", code: 2, userInfo: [NSLocalizedDescriptionKey: "Failed to extract prediction"]))
                 return
             }
+
+            let speciesList: [String] = ["setosa", "versicolor", "virginica"]
             
-            completion(species, nil)
+            completion(speciesList[Int(speciesIndex)], nil)
         } catch {
+            print("Prediction error: \(error.localizedDescription)")
             completion(nil, error)
         }
     }
