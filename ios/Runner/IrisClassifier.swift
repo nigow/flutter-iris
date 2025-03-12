@@ -15,7 +15,7 @@ import Vision
     
     private func setupModel() {
         let modelURL = Bundle.main.url(forResource: "IrisClassifier", withExtension: "mlmodelc") ??
-                      Bundle(for: type(of: self)).url(forResource: "IrisClassifier", withExtension: "mlmodel")
+                      Bundle(for: type(of: self)).url(forResource: "IrisClassifier", withExtension: "mlmodelc")
         
         if let modelURL = modelURL {
             print("Found model URL: \(modelURL)")

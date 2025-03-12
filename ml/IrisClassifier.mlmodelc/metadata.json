@@ -1,0 +1,60 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "outputSchema" : [
+      {
+        "isOptional" : "0",
+        "formattedType" : "Int64",
+        "type" : "Int64",
+        "name" : "species",
+        "shortDescription" : ""
+      }
+    ],
+    "modelParameters" : [
+      {
+        "defaultValue" : "3",
+        "scope" : "",
+        "allowedRange" : "[1, 150]",
+        "name" : "numberOfNeighbors",
+        "dataType" : "Int64",
+        "shortDescription" : "Number of neighbors to use for prediction"
+      }
+    ],
+    "specificationVersion" : 1,
+    "isUpdatable" : "0",
+    "availability" : {
+      "macOS" : "10.13",
+      "tvOS" : "11.0",
+      "visionOS" : "1.0",
+      "watchOS" : "4.0",
+      "iOS" : "11.0",
+      "macCatalyst" : "11.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_kNearestNeighborsClassifier"
+    },
+    "userDefinedMetadata" : {
+      "com.github.apple.coremltools.version" : "8.2",
+      "com.github.apple.coremltools.source" : "scikit-learn==1.5.1"
+    },
+    "classLabels" : [
+      "0",
+      "1",
+      "2"
+    ],
+    "generatedClassName" : "IrisClassifier",
+    "inputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float32",
+        "formattedType" : "MultiArray (Float32 4)",
+        "shortDescription" : "",
+        "shape" : "[4]",
+        "name" : "input",
+        "type" : "MultiArray"
+      }
+    ],
+    "method" : "predict"
+  }
+]
