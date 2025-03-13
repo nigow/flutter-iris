@@ -20716,14 +20716,9 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				3B60155F2D77447B000288AF /* IrisClassifier.mlmodel */,
-				3B60155E2D774465000288AF /* ml */,
-=======
 				3B6015662D81D119000288AF /* IrisClassifier.mlmodelc */,
 				3B6015682D81DB0D000288AF /* IrisClassifier.mlmodelc */,
 				3B60156A2D81DCC9000288AF /* IrisClassifier.mlmodelc */,
->>>>>>> tmp
 				3B60EDC92D73E22C000288AF /* IrisClassifier.swift */,
 				3B0AE0BA2D7364A9005A3E24 /* FlutterCoreMLPlugin.swift */,
 				3B60EDC72D73E188000288AF /* FlutterCoreMLPlugin.swift */,
