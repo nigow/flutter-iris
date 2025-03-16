@@ -25,10 +25,7 @@ class CoreMLService {
         'petalLength': petalLength,
         'petalWidth': petalWidth,
       });
-      final species = ["setosa", "versicolor", "virginica"];
-      print(result);
-      final index = result != null ? int.parse(result) : null;
-      return index != null ? species[index] : null;
+      return result;
     } on PlatformException catch (e) {
       print('Failed to predict species: ${e.message}');
       return null;
