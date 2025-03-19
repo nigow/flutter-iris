@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class CoreMLService {
@@ -19,11 +20,15 @@ class CoreMLService {
     required double petalWidth,
   }) async {
     try {
+      final jsonInput = jsonEncode({
+        'sepal_length': sepalLength,
+        'sepal_width': sepalWidth,
+        'petal_length': petalLength,
+        'petal_width': petalWidth,
+      });
+
       final result = await _channel.invokeMethod<String>('predict', {
-        'sepalLength': sepalLength,
-        'sepalWidth': sepalWidth,
-        'petalLength': petalLength,
-        'petalWidth': petalWidth,
+        'jsonInput': jsonInput,
       });
       return result;
     } on PlatformException catch (e) {
