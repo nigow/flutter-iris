@@ -61,35 +61,6 @@ import Vision
         }
     }
     
-    @objc func predict(jsonInput: String, completion: @escaping (String?, Error?) -> Void) {
-        guard let model = model else {
-            completion(nil, NSError(domain: "CoreMLHandler", code: 1, userInfo: [NSLocalizedDescriptionKey: "Model not loaded"]))
-            return
-        }
-        
-        do {
-            guard let data = jsonInput.data(using: .utf8),
-                  let dict = try JSONSerialization.jsonObject(with: data) as? [String: Double] else {
-                throw NSError(domain: "CoreMLHandler", code: 3, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON input"])
-            }
-            
-            let provider = try MLDictionaryFeatureProvider(dictionary: ["input": dict])
-            let output = try model.prediction(from: provider)
-            
-            guard let speciesIndex = output.featureValue(for: "species")?.int64Value else {
-                completion(nil, NSError(domain: "CoreMLHandler", code: 2, userInfo: [NSLocalizedDescriptionKey: "Failed to extract prediction"]))
-                return
-            }
-
-            let speciesList: [String] = ["setosa", "versicolor", "virginica"]
-            
-            completion(speciesList[Int(speciesIndex)], nil)
-        } catch {
-            print("Prediction error: \(error.localizedDescription)")
-            completion(nil, error)
-        }
-    }
-    
     @objc func isUsingNeuralEngine() -> Bool {
         if #available(iOS 16.0, *) {
             return MLComputeUnits.cpuAndNeuralEngine.rawValue != 0
